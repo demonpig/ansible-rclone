@@ -1,0 +1,8 @@
+---
+
+rclone_baseurl: "https://downloads.rclone.org/{{ rclone_version }}"
+rclone_download_path: /var/tmp/rclone-download
+
+rclone_arch_map:
+  x86_64: amd64
+  x86: 386

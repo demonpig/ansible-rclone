@@ -1,0 +1,7 @@
+---
+
+- name: Verify Playbook
+  hosts: all
+  tasks:
+    - name: Execute rclone command
+      ansible.builtin.command: rclone version

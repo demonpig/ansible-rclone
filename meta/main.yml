@@ -1,0 +1,20 @@
+---
+
+galaxy_info:
+  role_name: rclone
+  namespace: demonpig
+  author: Max Mitschke
+  description: Install Rclone
+  license: MIT
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Fedora
+      versions:
+        - all
+    - name: EPEL
+      versions:
+        - all
+
+  galaxy_tags:
+    - rclone

@@ -1,0 +1,59 @@
+---
+
+- name: Get distribution variables
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+
+- name: Get shared variables
+  ansible.builtin.include_vars: main.yml
+
+- name: Set task variables
+  ansible.builtin.set_fact:
+    rclone_arch: "{{ rclone_arch_map[ansible_architecture] }}"
+    rclone_os: "{{ ansible_system | lower }}"
+
+- name: Construct download URL
+  ansible.builtin.set_fact:
+    rclone_url: "{{ rclone_baseurl }}/rclone-{{ rclone_version }}-{{ rclone_os }}-{{ rclone_arch }}.zip"
+  when: rclone_url is not defined
+
+- name: Install rclone dependencies
+  ansible.builtin.package:
+    name: "{{ rclone_deps }}"
+    state: present
+
+- name: Create directory to store download archive
+  ansible.builtin.file:
+    path: "{{ rclone_download_path }}"
+    state: directory
+
+- name: Download rclone archive
+  ansible.builtin.unarchive:
+    src: "{{ rclone_url }}"
+    dest: "{{ rclone_download_path }}"
+    remote_src: true
+
+- name: Install components from download archive
+  ansible.builtin.copy:
+    src: "{{ rclone_download_path }}/rclone-{{ rclone_version }}-{{ rclone_os }}-{{ rclone_arch }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: root
+    remote_src: true
+  loop:
+    # Binary
+    - src: rclone
+      dest: /usr/local/bin/rclone
+      mode: '0755'
+    # Manual
+    - src: rclone.1
+      dest: /usr/local/share/man/man1/rclone.1
+      mode: '0644'
+  notify:
+    - update manual
