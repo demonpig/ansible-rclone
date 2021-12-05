@@ -5,3 +5,4 @@
   tasks:
     - name: Execute rclone command
       ansible.builtin.command: rclone version
+      changed_when: false

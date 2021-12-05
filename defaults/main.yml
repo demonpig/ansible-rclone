@@ -1,3 +1,6 @@
 ---
 
-rclone_version: v1.57.0
+# Version of rclone to install on the target system. You can either use 'current', 'beta', or a specific version.
+# The 'current' and 'beta' are keywords for the role to perform a check on rclone's site to see what version to
+# install.
+rclone_version: current
