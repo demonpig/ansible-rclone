@@ -4,3 +4,5 @@
 # The 'current' and 'beta' are keywords for the role to perform a check on rclone's site to see what version to
 # install.
 rclone_version: current
+
+rclone_url: ''

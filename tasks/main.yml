@@ -12,64 +12,9 @@
 - name: Get shared variables
   ansible.builtin.include_vars: main.yml
 
-- name: Set initial task variables
-  ansible.builtin.set_fact:
-    rclone_arch: "{{ rclone_arch_map[ansible_architecture] }}"
-    rclone_os: "{{ ansible_system | lower }}"
-    rclone_baseurl: "{{ rclone_stable_baseurl }}"
-  when: rclone_url is not defined
-
-# this is an automated version check if rclone_version == current
-- block:
-    - name: "[STABLE] Get version of release"
-      ansible.builtin.uri:
-        url: "{{ rclone_stable_baseurl }}/version.txt"
-        return_content: true
-      register: rclone_stable_version
-
-    - name: "[STABLE] Set task variables for release"
-      ansible.builtin.set_fact:
-        _rclone_version: "{{ rclone_stable_version.content.split(' ')[-1].rstrip() }}"
-        rclone_baseurl: "{{ rclone_stable_baseurl }}"
-  when:
-    - rclone_version|lower == "current"
-    - rclone_url is not defined
-
-# this is an automated version check if rclone_version == beta
-- block:
-    - name: "[BETA] Get version of release"
-      ansible.builtin.uri:
-        url: "{{ rclone_beta_baseurl }}/version.txt"
-        return_content: true
-      register: rclone_beta_version
-
-    - name: "[BETA] Set task variables for release"
-      ansible.builtin.set_fact:
-        _rclone_version: "{{ rclone_beta_version.content.split(' ')[-1].rstrip() }}"
-        rclone_baseurl: "{{ rclone_beta_baseurl }}"
-  when:
-    - rclone_version|lower == "beta"
-    - rclone_url is not defined
-
-- name: Set version variable if not already set
-  ansible.builtin.set_fact:
-    _rclone_version: "{{ rclone_version }}"
-  when:
-    - _rclone_version is not defined
-    - rclone_url is not defined
-
-# need to set the correct baseurl if the user specifies a beta-specific version
-- name: Set beta-specific task variables if beta version is specified
-  ansible.builtin.set_fact:
-    rclone_baseurl: "{{ rclone_beta_baseurl }}"
-  when:
-    - "'beta' in rclone_version"
-    - rclone_url is not defined
-
-- name: Construct download URL
-  ansible.builtin.set_fact:
-    rclone_url: "{{ rclone_baseurl }}/{{ _rclone_version }}/rclone-{{ _rclone_version }}-{{ rclone_os }}-{{ rclone_arch }}.zip"
-  when: rclone_url is not defined
+- name: Get rclone download URL
+  ansible.builtin.import_tasks: create-download-url.yml
+  when: rclone_url is not defined or rclone_url == ""
 
 - name: Install dependencies
   ansible.builtin.package:
