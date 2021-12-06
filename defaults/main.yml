@@ -5,7 +5,7 @@
 # install.
 rclone_version: current
 
-# URL to download a zip archive of rclone from. If left as-is, the role will use the rclone_version variable to 
+# URL to download a zip archive of rclone from. If left as-is, the role will use the rclone_version variable to
 # constuct a URL. The reason for offering this variable is so a user can specify an internal site to download
 # from.
 rclone_url: ''
