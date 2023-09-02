@@ -1,8 +1,10 @@
 ---
 
-- name: Verify Playbook
+- name: Verify
   hosts: all
+  gather_facts: false
+
   tasks:
     - name: Execute rclone command
-      ansible.builtin.command: rclone version
       changed_when: false
+      ansible.builtin.command: rclone version

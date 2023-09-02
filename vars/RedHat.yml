@@ -1,6 +1,0 @@
----
-
-rclone_deps:
-  - zip
-  - unzip
-  - man-db

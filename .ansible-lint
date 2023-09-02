@@ -3,3 +3,5 @@
 skip_list:
   - 'yaml'
   - empty-string-compare
+  - name[casing]
+  - name[missing]

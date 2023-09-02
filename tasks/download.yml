@@ -1,0 +1,15 @@
+---
+
+- ansible.builtin.include_tasks: init.yml
+
+- name: Download the rclone archive
+  register: rclone_archive
+  until: 'rclone_archive is not failed'
+  retries: 3
+  delay: 5
+  ansible.builtin.unarchive:
+    src: "{{ _rclone_repo }}/releases/download/{{ rclone_version }}/rclone-{{ rclone_version }}-linux-amd64.zip"
+    dest: "{{ _rclone_download_path }}"
+    remote_src: true
+    list_files: true
+    creates: "{{ _rclone_download_path }}/rclone-{{ rclone_version }}-linux-amd64"

@@ -1,8 +1,9 @@
 ---
 
-- name: Rclone Role
+- name: Converge
   hosts: all
+  
   tasks:
-    - name: Include role
+    - name: Include the demonpig.rclone role
       ansible.builtin.include_role:
-        name: demonpig.rclone
+        name: "demonpig.rclone"

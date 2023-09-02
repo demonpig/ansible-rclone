@@ -1,9 +1,29 @@
 ---
 
-rclone_stable_baseurl: "https://downloads.rclone.org"
-rclone_beta_baseurl: "https://beta.rclone.org"
-rclone_download_path: /var/tmp/rclone-download
+_rclone_download_path: /var/tmp/ansible-role-rclone
 
-rclone_arch_map:
+_rclone_repo: https://github.com/rclone/rclone
+
+_package_deps:
+  RedHat: 
+    pkgs:
+      - git-core
+      - zip
+      - unzip
+      - man-db
+  AlmaLinux:
+    pkgs:
+      - git-core
+      - zip
+      - unzip
+      - man-db
+  Debian:
+    pkgs:
+      - git
+      - zip
+      - unzip
+      - man-db
+
+_rclone_arch_map:
   x86_64: amd64
   x86: 386

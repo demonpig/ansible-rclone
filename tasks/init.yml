@@ -1,0 +1,32 @@
+---
+
+- name: Include shared variables
+  ansible.builtin.include_vars: main.yml
+
+- name: Install package dependencies on the host
+  ansible.builtin.package:
+    name: "{{ _package_deps[ansible_distribution]['pkgs'] }}"
+    state: present
+
+- name: Create temporary download directory
+  ansible.builtin.file:
+    path: "{{ _rclone_download_path }}"
+    state: directory
+    mode: 0755
+
+- name: Determine version of rclone to download
+  when: rclone_version == "latest"
+  block:
+    - name: Get the version information from rclone repository
+      ansible.builtin.command: git ls-remote {{ _rclone_repo }} 'refs/tags/*' # noqa: command-instead-of-module
+      register: rclone_version_info
+      changed_when: true
+
+    - name:  Set version variable to latest tag found in list
+      ansible.builtin.set_fact:
+        rclone_version: "{{ rclone_version_info.stdout_lines[-1].split('refs/tags/')[1].replace('^{}', '') }}"
+
+- name: Set version variable to user-defined version
+  when: etv_version is not defined and rclone_version != "latest"
+  ansible.builtin.set_fact:
+    etv_version: "{{ rclone_version }}"

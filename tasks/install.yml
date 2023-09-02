@@ -1,0 +1,30 @@
+---
+
+- ansible.builtin.include_tasks: init.yml
+
+- name: Create the man1 directory
+  ansible.builtin.file:
+    path: /usr/local/share/man/man1
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Install rclone
+  loop:
+    # Binary
+    - src: rclone
+      dest: /usr/local/bin/rclone
+      mode: '0755'
+    # Manual
+    - src: rclone.1
+      dest: /usr/local/share/man/man1/rclone.1
+      mode: '0644'
+  notify: update manual
+  ansible.builtin.copy:
+    src: "{{ _rclone_download_path }}/rclone-{{ rclone_version }}-linux-amd64/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: root
+    remote_src: true
