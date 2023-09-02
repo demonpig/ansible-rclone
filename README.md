@@ -1,58 +1,37 @@
-# Ansible Role: Rclone
+# demonpig.rclone
 
-Installs rclone on target system.
+This role will install [rclone](https://github.com/rclone/rclone) onto a managed host.
 
-## Overview
-This is a high-level overview how the role works:
-1. Establish version of rclone to install by visiting rclone.org/version.txt
-2. Construct download URL
-3. Install dependencies
-4. Create download folder in /var/tmp
-5. Download and install rclone
+### Requirements
 
-## Role Variables
-```yaml
-rclone_version: current
-```
-The version of rclone to install on the system.
+Nothing at the moment.
+
+### Role Variables
 
 ```yaml
-rclone_url: ''
+rclone_version: latest
 ```
-A URL to download a zip archive of rclone from. By default the role will use the `rclone_version` variable to construct the URL. This variable allows ansible to download from an internal site.
 
-## Dependencies
-None
+Specifies the version of the rclone to install on the managed host. The role pulls the artifacts from https://github.com/rclone/rclone/releases.
 
-## Example Playbook
-```yaml
----
+If the variable is set to `latest` (default), then the role will perform a check against the repository for the latest release.
 
-- name: Example playbook
-  hosts: all
-  roles:
-    - role: demonpig.rclone
-```
+### Dependencies
+
+- Ansible 2.9+
+
+### Example Playbook
 
 ```yaml
 ---
 
-- name: Example Playbook
+- name: Install Rclone
   hosts: all
+
   roles:
-    - role: demonpig.rclone
-      rclone_version: beta
+    - name: demonpig.rclone
 ```
 
-```yaml
----
+### License
 
-- name: Example Playbook
-  hosts: all
-  roles:
-    - role: demonpig.rclone
-      rclone_url: 'https://internal-site.example.com/path/to/rclone.zip'
-```
-
-## License
 MIT
