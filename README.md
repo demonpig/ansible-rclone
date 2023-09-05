@@ -4,7 +4,7 @@ This role will install [rclone](https://github.com/rclone/rclone) onto a managed
 
 ### Requirements
 
-- Playbook must gather facts about the managed host prior to executing the role's tasks. This is because the role utilizes the `ansible_distribution` fact variable when installing package dependencies.
+- Playbook must gather facts about the managed host prior to executing the role's tasks. This is because the role utilizes the `ansible_distribution` and `ansible_system` facts.
 
 ### Role Variables
 
