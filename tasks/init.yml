@@ -24,9 +24,9 @@
 
     - name:  Set version variable to latest tag found in list
       ansible.builtin.set_fact:
-        rclone_version: "{{ rclone_version_info.stdout_lines[-1].split('refs/tags/')[1].replace('^{}', '') }}"
+        _rclone_version: "{{ rclone_version_info.stdout_lines[-1].split('refs/tags/')[1].replace('^{}', '') }}"
 
 - name: Set version variable to user-defined version
   when: rclone_version is not defined and rclone_version != "latest"
   ansible.builtin.set_fact:
-    etv_version: "{{ rclone_version }}"
+    _rclone_version: "{{ rclone_version }}"
