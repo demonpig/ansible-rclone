@@ -27,6 +27,6 @@
         rclone_version: "{{ rclone_version_info.stdout_lines[-1].split('refs/tags/')[1].replace('^{}', '') }}"
 
 - name: Set version variable to user-defined version
-  when: etv_version is not defined and rclone_version != "latest"
+  when: rclone_version is not defined and rclone_version != "latest"
   ansible.builtin.set_fact:
     etv_version: "{{ rclone_version }}"
