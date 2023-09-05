@@ -1,10 +1,10 @@
 ---
 
-- name: Verify
+- name: Verify Playbook
   hosts: all
-  gather_facts: false
 
   tasks:
-    - name: Execute rclone command
-      changed_when: false
-      ansible.builtin.command: rclone version
+    - name: Verify the role installed components properly
+      ansible.builtin.include_role:
+        name: demonpig.rclone
+        tasks_from: verify

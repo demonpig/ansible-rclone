@@ -1,0 +1,9 @@
+---
+
+- name: Execute rclone command
+  changed_when: false
+  ansible.builtin.command: rclone version
+
+- name: Verify man page is installed properly
+  changed_when: false
+  ansible.builtin.command: man rclone
