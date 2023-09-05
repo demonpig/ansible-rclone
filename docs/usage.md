@@ -2,7 +2,7 @@
 This document will outline several different ways to use the `demonpig.rclone` role. It has been designed to be flexible as not all environments allow for complete access to the internet. 
 
 ### Normal Install
-```
+```yaml
 ---
 
 - name: Install rclone playbook
@@ -15,7 +15,7 @@ This document will outline several different ways to use the `demonpig.rclone` r
 ### Disconnected Environment
 For this scenario, the managed host does not have access to Github or other sites on the internet. It will only have access to an internal S3-compatible object storage server and rclone is a required tool. The controller (host running the ansible playbook) will require access to the Github.
 
-```
+```yaml
 ---
 
 - name: Install rclone playbook
