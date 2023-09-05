@@ -1,6 +1,6 @@
 ---
 
-_rclone_download_path: /var/tmp/ansible-role-rclone
+_rclone_download_path: "{{ rclone_download_path | default('/var/tmp/ansible-role-rclone') }}"
 
 _rclone_repo: https://github.com/rclone/rclone
 
