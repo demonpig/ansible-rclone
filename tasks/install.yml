@@ -22,7 +22,7 @@
       mode: '0644'
   notify: update manual
   ansible.builtin.copy:
-    src: "{{ _rclone_download_path }}/rclone-{{ _rclone_version }}-linux-amd64/{{ item.src }}"
+    src: "{{ _rclone_download_path }}/rclone-{{ _rclone_version }}-linux-{{ rclone_arch }}/{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
     owner: root

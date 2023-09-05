@@ -30,3 +30,7 @@
   when: rclone_version is not defined and rclone_version != "latest"
   ansible.builtin.set_fact:
     _rclone_version: "{{ rclone_version }}"
+
+- name: Set additional facts required by the role
+  ansible.builtin.set_fact:
+    rclone_arch: "{{ _rclone_arch_map[ansible_architecture] }}"

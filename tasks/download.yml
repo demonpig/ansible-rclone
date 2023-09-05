@@ -8,8 +8,8 @@
   retries: 3
   delay: 5
   ansible.builtin.unarchive:
-    src: "{{ _rclone_repo }}/releases/download/{{ _rclone_version }}/rclone-{{ _rclone_version }}-linux-amd64.zip"
+    src: "{{ _rclone_repo }}/releases/download/{{ _rclone_version }}/rclone-{{ _rclone_version }}-linux-{{ rclone_arch }}.zip"
     dest: "{{ _rclone_download_path }}"
     remote_src: true
     list_files: true
-    creates: "{{ _rclone_download_path }}/rclone-{{ _rclone_version }}-linux-amd64"
+    creates: "{{ _rclone_download_path }}/rclone-{{ _rclone_version }}-linux-{{ rclone_arch }}"
