@@ -2,4 +2,3 @@
 
 - ansible.builtin.include_tasks: download.yml
 - ansible.builtin.include_tasks: install.yml
-- ansible.builtin.include_tasks: verify.yml
