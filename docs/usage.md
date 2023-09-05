@@ -13,9 +13,7 @@ This document will outline several different ways to use the `demonpig.rclone` r
 ```
 
 ### Disconnected Environment
-For this scenario, the managed host does not have access to Github or other sites on the internet. It will only have access to an internal S3-compatible object storage server and rclone is a required tool. 
-
-**Note**: This playbook is just a starter for right now. I realized that the `init.yml` task does a git command against the github repo on the managed host. I need to figure out a good way to prevent that.
+For this scenario, the managed host does not have access to Github or other sites on the internet. It will only have access to an internal S3-compatible object storage server and rclone is a required tool. The controller (host running the ansible playbook) will require access to the Github.
 
 ```
 ---
@@ -24,13 +22,19 @@ For this scenario, the managed host does not have access to Github or other site
   hosts: all
   gather_facts: true
 
+  vars:
+    # Need to specify a specific version in order to prevent ansible from 
+    # contacting the GitHub repo from the managed host where rclone will
+    # be installed onto.
+    rclone_version: v1.63.1
+
   tasks:
     - name: Create tmp download location on localhost
       register: tmp_download_dir
       ansible.builtin.tempfile:
         state: directory
 
-    # this will download the rclone archive locally to /tmp
+    # this will download the rclone archive locally to a temp directory
     - name: Download rclone onto localhost
       delegate_to: localhost
       vars:
@@ -44,6 +48,8 @@ For this scenario, the managed host does not have access to Github or other site
         path: /var/tmp/ansible-role-rclone
         state: directory
 
+    # this will sync all of the content of the temp directory to the 
+    # managed host. Only the rclone archive should live in this dir.
     - name: Upload the local archive
       ansible.builtin.copy:
         src: "{{ tmp_download_dir.path }}/"
