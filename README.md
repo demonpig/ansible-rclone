@@ -16,6 +16,12 @@ Specifies the version of the rclone to install on the managed host. The role pul
 
 If the variable is set to `latest` (default), then the role will perform a check against the repository for the latest release.
 
+```yaml
+rclone_download_path: ""
+```
+
+Specifies the path to download the rclone archive to.
+
 ### Dependencies
 
 - Ansible 2.9+
